@@ -7,7 +7,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - D:/configs/jellyfin:/config
       - D:/data/cache/jellyfin:/cache
-      - D:/data/media:/data
+      - D:/data:/data
     ports:
       - 8096:8096
 
@@ -111,4 +111,19 @@ services:
       - D:/data/media/tv:/tv #optional
     ports:
       - 6767:6767
+    restart: unless-stopped
+
+  # searches for movies
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - D:/config/radarr:/config
+      - D:/data:/data
+    ports:
+      - 7878:7878
     restart: unless-stopped
