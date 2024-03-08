@@ -20,14 +20,11 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     ports:
-      - 8989:8989 # sonarr
+      - 8989:8989
     volumes:
       - D:/data:/data
       - D:/configs/sonarr:/config
     restart: unless-stopped
-    # network_mode: container:gluetun
-    # depends_on:
-    #   - gluetun
 
   # secures services that need a vpn
   gluetun:
@@ -39,7 +36,6 @@ services:
       - 6081:6881 # qbittorrent tcp
       - 6081:6881/udp # qbittorrent udp
       - 6011:6011 # qbittorrent ui
-      # - 8989:8989 # sonarr
       - 8585:8080 # sabnzbd
     environment:
       - VPN_SERVICE_PROVIDER=mullvad
