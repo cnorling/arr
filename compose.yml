@@ -37,15 +37,18 @@ services:
       - 6081:6881/udp # qbittorrent udp
       - 6011:6011 # qbittorrent ui
       - 8585:8080 # sabnzbd
+    dns:
+      - "10.64.0.1"
     environment:
       - VPN_SERVICE_PROVIDER=mullvad
       - VPN_TYPE=wireguard
-      - WIREGUARD_PRIVATE_KEY=OOFcA1MqGjOJfFYC8pbfSWUm17ULHlrQC6yiDt8UNFU=
-      - WIREGUARD_ADDRESSES=10.64.82.38/32
+      - WIREGUARD_ADDRESSES=10.69.4.104/32
       - SERVER_CITIES=Stockholm
     volumes:
       - /Home/Docker/Gluetun:/gluetun
     restart: unless-stopped
+    secrets:
+      - wireguard_private_key
 
   # acts as a torrent client
   qbittorrent:
@@ -122,8 +125,12 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - D:/config/radarr:/config
+      - D:/configs/radarr:/config
       - D:/data:/data
     ports:
       - 7878:7878
     restart: unless-stopped
+
+secrets:
+  wireguard_private_key:
+    file: .wireguard_private_key
